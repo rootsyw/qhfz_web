@@ -51,10 +51,11 @@ function setupCommentForm() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('button');
-        const nickname = document.getElementById('nickname').value.trim();
         const content = document.getElementById('content').value.trim();
+        const nicknameEl = document.getElementById('nickname');
+        const nickname = nicknameEl ? nicknameEl.value.trim() : '匿名';
 
-        if (!nickname || !content) return;
+        if (!content) return;
 
         btn.disabled = true;
         btn.textContent = '...';
