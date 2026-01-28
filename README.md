@@ -8,17 +8,16 @@
 
 ## 项目简介
 
-本项目提供**三套网站搭建方案**，代码完全相同，差异只在部署方式：
+本项目提供**三套网站搭建方案**：
 
-| | 方案 A（传统教学版） | 方案 B（Serverless 版） | 方案 C（极简静态版） |
-|--|---------------------|------------------------|---------------------|
-| **定位** | 理解服务器运维原理 | 理解现代部署流程 | 快速体验建站 |
+| | 方案 A | 方案 B | 方案 C |
+|--|-------|-------|-------|
+| **名称** | 传统服务器版 | Zeabur 动态版 | Cloudflare 静态版 |
+| **功能** | 完整（博客+留言板） | 完整（博客+留言板） | **仅博客** |
 | **技术栈** | Flask + Hugo + Nginx | Flask + Hugo + Zeabur | Hugo + Cloudflare |
-| **服务器** | 需要 Linux 服务器 | 不需要 | 不需要 |
-| **功能** | 完整（博客+留言板+统计） | 完整 | 仅博客 |
+| **服务器** | 需要 Linux | 不需要 | 不需要 |
 | **成本** | 服务器费用 | 免费/低成本 | **完全免费** |
 | **难度** | ⭐⭐⭐ | ⭐⭐ | ⭐ |
-| **适合场景** | 课堂教学 | 课后自用 | 快速入门 |
 
 ---
 
@@ -122,84 +121,77 @@ sudo cp -r public/* /var/www/qhfz/
 
 ---
 
-## 方案 B：Serverless 部署（3 步）
+## 方案 B：Zeabur 完整部署（动态版）
 
-> 适合课后自用，无需服务器，Git 推送自动部署
+> 完整功能：博客 + 留言板 + 访客统计
 
-### 步骤 1：Fork 并克隆项目
+### 架构说明
 
-```bash
-# 先在 GitHub 上 Fork 本项目
-git clone https://github.com/<你的用户名>/qhfz_web.git
-cd qhfz_web
+方案 B 需要在 Zeabur 部署**两个服务**：
+
+```
+Zeabur 项目
+├── Flask API 服务 ──→ api.xxx.zeabur.app（后端接口）
+└── Hugo 博客服务 ──→ blog.xxx.zeabur.app（前端页面）
 ```
 
-### 步骤 2：部署到 Zeabur
+### 步骤 1：Fork 项目
+
+在 GitHub 上 Fork 本项目到你的账号。
+
+### 步骤 2：部署 Flask API
 
 1. 注册 [Zeabur](https://zeabur.com) 账号
 2. 创建新项目 → 选择 "从 Git 部署"
-3. 连接你的 GitHub 账号，选择 `qhfz_web` 仓库
-4. **部署 Flask API**：
-   - **关键：Root Directory 必须设置为 `flask_api`**（不是根目录，不是 serverless）
-   - Zeabur 会自动识别 Python 项目并使用 `zeabur.toml` 配置部署
-5. **部署 Hugo 博客**：选择 `hugo_blog` 目录，构建命令填 `hugo --minify`
+3. 连接 GitHub，选择 `qhfz_web` 仓库
+4. **Root Directory 设为 `flask_api`**
+5. 部署完成后，在"网络"标签绑定域名，记下 API 地址
 
-> **常见问题**：如果部署后访问 404，请检查 Root Directory 是否正确设置为 `flask_api`。详见 [serverless/README.md](serverless/README.md#zeabur-常见问题排查)。
+### 步骤 3：部署 Hugo 博客
 
-### 步骤 3：配置域名
+1. 在**同一个 Zeabur 项目**中，点击 "添加服务" → "从 Git 部署"
+2. 选择同一个 `qhfz_web` 仓库
+3. **Root Directory 设为 `hugo_blog`**
+4. Zeabur 会自动识别 Hugo 并构建
+5. 部署完成后，绑定域名
 
-Zeabur 会自动分配一个域名，如 `qhfz-web-xxx.zeabur.app`。
+### 步骤 4：配置 API 地址
 
-如需自定义域名，在 Zeabur 控制台添加域名并配置 DNS。
+修改 `hugo_blog/hugo.toml`，将 `apiBase` 改为步骤 2 的 API 地址：
 
-### 更新网站
-
-```bash
-# 修改代码后
-git add .
-git commit -m "更新内容"
-git push
-
-# Zeabur 会自动重新构建部署
+```toml
+[params]
+  apiBase = 'https://你的api域名.zeabur.app'
 ```
 
-详细步骤参见 [serverless/README.md](serverless/README.md)。
+推送后 Zeabur 会自动重新部署 Hugo 服务。
 
-> **其他平台选项：** 除了 Zeabur，还支持 PythonAnywhere、Cloudflare Workers、腾讯云 SCF 等平台。详见 [serverless/README.md](serverless/README.md)。
+> **常见问题**：详见 [serverless/README.md](serverless/README.md#zeabur-常见问题排查)
 
 ---
 
-## 方案 C：极简静态部署（2 步）
+## 方案 C：Cloudflare Pages 静态部署
 
-> **零成本、零服务器、10 分钟上线** — 适合只需要博客的场景
+> **零成本、纯静态** — 只有博客，无留言功能
 
-⚠️ **注意：** 此方案不包含留言板和访客统计功能（需要后端支持）
+### 步骤 1：Fork 项目
 
-### 步骤 1：Fork 并推送到 GitHub
-
-```bash
-# Fork 本项目后克隆
-git clone https://github.com/<你的用户名>/qhfz_web.git
-cd qhfz_web
-
-# 随便改点内容
-echo "Hello" >> hugo_blog/content/posts/test.md
-git add . && git commit -m "测试" && git push
-```
+在 GitHub 上 Fork 本项目。
 
 ### 步骤 2：部署到 Cloudflare Pages
 
 1. 访问 [cloudflare.com](https://cloudflare.com) 注册
 2. 进入 **Workers & Pages** → **Create** → **Pages**
 3. 连接 GitHub，选择 `qhfz_web` 仓库
-4. 配置构建：
-   - Build command: `cd hugo_blog && hugo --minify`
-   - Output directory: `hugo_blog/public`
-5. 点击 **Save and Deploy**
+4. **Framework preset** 选择 `Hugo`
+5. **Root directory** 填 `hugo_blog`
+6. 点击 **Save and Deploy**
 
 完成！访问分配的域名 `xxx.pages.dev` 即可。
 
-详细步骤和其他静态托管选项（GitHub Pages、Vercel），参见 [docs/方案C-静态部署.md](docs/方案C-静态部署.md)。
+> **注意**：方案 C 无后端，留言板页面不会显示任何内容。如需留言功能，请使用方案 B。
+
+详细步骤参见 [docs/方案C-静态部署.md](docs/方案C-静态部署.md)。
 
 ---
 
