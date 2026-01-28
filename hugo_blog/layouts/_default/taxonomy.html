@@ -1,14 +1,20 @@
 {{ define "main" }}
-<section class="list-page">
+{{ $label := "返回" }}
+{{ if eq .Data.Singular "category" }}{{ $label = "所有分类" }}{{ end }}
+{{ if eq .Data.Singular "tag" }}{{ $label = "所有标签" }}{{ end }}
+{{ $backURL := (printf "%s/" .Data.Plural) | relURL }}
+
+<section class="list-page taxonomy-page taxonomy-term">
     <header class="page-header">
+        <a class="back-link" href="{{ $backURL }}">← {{ $label }}</a>
         <h1>{{ .Title }}</h1>
         <p class="page-subtitle">共 {{ len .Pages }} 篇文章</p>
     </header>
 
     <div class="post-list">
-        {{ range .Pages }}
+        {{ range .Pages.ByDate.Reverse }}
         <article class="post-card">
-            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
             <div class="post-meta">
                 <span>{{ .Date.Format "2006-01-02" }}</span>
                 {{ with .Params.categories }}
@@ -24,6 +30,8 @@
             <p class="post-excerpt">{{ .Plain | truncate 120 }}</p>
             {{ end }}
         </article>
+        {{ else }}
+        <p class="empty-tip">还没有文章，敬请期待！</p>
         {{ end }}
     </div>
 </section>

@@ -2,8 +2,20 @@
     <nav class="nav container">
         <a href="{{ "/" | relURL }}" class="nav-logo">{{ .Site.Title }}</a>
         <ul class="nav-menu">
+            {{ $categoriesURL := ("/categories/" | relURL) }}
+            {{ $tagsURL := ("/tags/" | relURL) }}
             {{ range .Site.Menus.main }}
-            <li><a href="{{ .URL | relURL }}"{{ if $.IsMenuCurrent "main" . }} class="active"{{ end }}>{{ .Name }}</a></li>
+            {{ $itemURL := .URL | relURL }}
+            {{ $current := $.RelPermalink }}
+            {{ $isActive := false }}
+            {{ if eq $itemURL "/" }}
+                {{ if eq $current "/" }}{{ $isActive = true }}{{ end }}
+            {{ else if eq $itemURL $categoriesURL }}
+                {{ if or (eq $current $categoriesURL) (hasPrefix $current $categoriesURL) (hasPrefix $current $tagsURL) }}{{ $isActive = true }}{{ end }}
+            {{ else }}
+                {{ if or (eq $current $itemURL) (hasPrefix $current $itemURL) }}{{ $isActive = true }}{{ end }}
+            {{ end }}
+            <li><a href="{{ $itemURL }}"{{ if $isActive }} class="active"{{ end }}>{{ .Name }}</a></li>
             {{ end }}
         </ul>
     </nav>

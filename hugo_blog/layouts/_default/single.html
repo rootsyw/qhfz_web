@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ if eq .Section "posts" }}
 <article class="post">
     <header class="post-header">
         <h1>{{ .Title }}</h1>
@@ -11,10 +12,16 @@
         </div>
         <div class="post-tags">
             {{ with .Params.categories }}
-            {{ range . }}<a href="{{ "categories/" | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>{{ end }}
+            {{ range . }}
+            {{ $term := . }}
+            <a href="{{ (printf "categories/%s/" ($term | urlize)) | relURL }}" class="tag">{{ $term }}</a>
+            {{ end }}
             {{ end }}
             {{ with .Params.tags }}
-            {{ range . }}<a href="{{ "tags/" | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>{{ end }}
+            {{ range . }}
+            {{ $term := . }}
+            <a href="{{ (printf "tags/%s/" ($term | urlize)) | relURL }}" class="tag">{{ $term }}</a>
+            {{ end }}
             {{ end }}
         </div>
     </header>
@@ -41,4 +48,14 @@
         </nav>
     </footer>
 </article>
+{{ else }}
+<article class="page">
+    <header class="page-header">
+        <h1>{{ .Title }}</h1>
+    </header>
+    <div class="post-content">
+        {{ .Content }}
+    </div>
+</article>
+{{ end }}
 {{ end }}

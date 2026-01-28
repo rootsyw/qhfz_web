@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+    {{ $pageTitle := .Title }}
+    {{ $categoriesURL := ("/categories/" | relURL) }}
+    {{ $tagsURL := ("/tags/" | relURL) }}
+    {{ if or (eq .RelPermalink $categoriesURL) (eq .RelPermalink $tagsURL) }}
+        {{ $pageTitle = "分类与标签" }}
+    {{ end }}
+    <title>{{ if $pageTitle }}{{ $pageTitle }} | {{ end }}{{ .Site.Title }}</title>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
     <link rel="stylesheet" href="{{ "css/syntax.css" | relURL }}">

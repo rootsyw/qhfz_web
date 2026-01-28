@@ -13,7 +13,10 @@
             <div class="post-meta">
                 <span>{{ .Date.Format "2006-01-02" }}</span>
                 {{ with .Params.categories }}
-                {{ range . }}<a href="{{ "categories/" | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>{{ end }}
+                {{ range . }}
+                {{ $term := . }}
+                <a href="{{ (printf "categories/%s/" ($term | urlize)) | relURL }}" class="tag">{{ $term }}</a>
+                {{ end }}
                 {{ end }}
             </div>
             {{ if .Description }}

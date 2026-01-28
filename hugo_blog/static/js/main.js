@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recordVisit();
     loadStats();
     setupCommentForm();
+    setupHeaderElevation();
     setupReadingProgress();
     setupBackToTop();
 });
@@ -149,6 +150,20 @@ function setupBackToTop() {
     btn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+}
+
+// ============ 导航栏滚动状态 ============
+function setupHeaderElevation() {
+    const header = document.querySelector('.header');
+    if (!header) return;
+
+    const update = () => {
+        if (window.scrollY > 8) header.classList.add('header--scrolled');
+        else header.classList.remove('header--scrolled');
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
 }
 
 // ============ 工具函数 ============
