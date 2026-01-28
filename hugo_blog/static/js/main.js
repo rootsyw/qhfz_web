@@ -57,7 +57,7 @@ function setupCommentForm() {
         if (!nickname || !content) return;
 
         btn.disabled = true;
-        btn.textContent = '发送中...';
+        btn.textContent = '...';
 
         try {
             const res = await fetch(`${API_BASE}/api/comments`, {
@@ -77,8 +77,7 @@ function setupCommentForm() {
             alert('网络错误，请稍后重试');
         } finally {
             btn.disabled = false;
-            btn.textContent = form.closest('.comment-section')?.previousElementSibling
-                ? '发送评论' : '发送留言';
+            btn.textContent = '发送';
         }
     });
 }

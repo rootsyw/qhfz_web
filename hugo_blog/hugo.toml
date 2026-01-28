@@ -5,11 +5,14 @@ baseURL = '/'  # 部署时会被替换
 languageCode = 'zh-cn'
 title = '极智挑战 - 冬令营博客'
 
-# API 地址（部署时替换）
+# API 地址（方案 B: Zeabur Flask API）
 [params]
-  apiBase = 'http://localhost:8080'
+  apiBase = 'https://qhfzblog.zeabur.app'
   author = '清华附中 × 奇安信'
   description = '2026 极智挑战智能安全科技冬令营'
+  # 是否启用动态功能（留言板、访客统计）
+  # 方案 C 静态部署时设为 false
+  enableComments = true
 
 # 语法高亮 - 浅色主题
 [markup]

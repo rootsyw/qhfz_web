@@ -428,6 +428,134 @@ main {
 }
 
 /* ============ 留言板 ============ */
+#guestbook {
+    max-width: 100%;
+}
+
+.guestbook-form {
+    display: flex;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+}
+
+.guestbook-form input[type="text"] {
+    font-family: var(--font-body);
+    padding: var(--space-2);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font-size: 0.9375rem;
+    transition: border-color 0.2s ease;
+}
+
+.guestbook-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.guestbook-form input#nickname {
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.guestbook-form input#content {
+    flex: 1;
+    min-width: 0;
+}
+
+.guestbook-form button {
+    font-family: var(--font-heading);
+    padding: var(--space-2) var(--space-3);
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.guestbook-form button:hover {
+    background: #c4654a;
+}
+
+.guestbook-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.comment-item {
+    padding: var(--space-3);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+}
+
+.comment-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+}
+
+.comment-item .nickname {
+    font-family: var(--font-heading);
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.comment-item .time {
+    color: var(--mid-gray);
+    font-size: 0.75rem;
+}
+
+.comment-item p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.empty-tip {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    text-align: center;
+    padding: var(--space-4) 0;
+}
+
+@media (max-width: 640px) {
+    .guestbook-form {
+        flex-wrap: wrap;
+    }
+
+    .guestbook-form input#nickname {
+        width: 100%;
+    }
+
+    .guestbook-form input#content {
+        width: 100%;
+    }
+
+    .guestbook-form button {
+        width: 100%;
+    }
+}
+
+/* ============ 文章评论区 ============ */
 .comment-section {
     margin-top: var(--space-6);
     padding-top: var(--space-5);
@@ -439,96 +567,6 @@ main {
     font-size: 1.25rem;
     font-weight: 500;
     margin-bottom: var(--space-4);
-}
-
-#comments-list {
-    margin-bottom: var(--space-4);
-}
-
-.comment-item {
-    padding: var(--space-3);
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    margin-bottom: var(--space-2);
-}
-
-.comment-item .nickname {
-    font-family: var(--font-heading);
-    color: var(--accent-blue);
-    font-weight: 500;
-    font-size: 0.9375rem;
-}
-
-.comment-item .time {
-    color: var(--mid-gray);
-    font-size: 0.75rem;
-    margin-left: var(--space-2);
-}
-
-.comment-item p {
-    margin-top: var(--space-1);
-    font-size: 0.9375rem;
-    line-height: 1.6;
-}
-
-/* ============ 表单 ============ */
-.comment-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.comment-form input,
-.comment-form textarea {
-    font-family: var(--font-body);
-    padding: var(--space-2);
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    color: var(--text);
-    font-size: 1rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.comment-form input:focus,
-.comment-form textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.1);
-}
-
-.comment-form input::placeholder,
-.comment-form textarea::placeholder {
-    color: var(--mid-gray);
-}
-
-.comment-form textarea {
-    min-height: 120px;
-    resize: vertical;
-    line-height: 1.6;
-}
-
-.comment-form button {
-    font-family: var(--font-heading);
-    padding: var(--space-2) var(--space-4);
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    align-self: flex-start;
-    transition: background 0.2s ease, transform 0.1s ease;
-}
-
-.comment-form button:hover {
-    background: #c4654a;
-}
-
-.comment-form button:active {
-    transform: scale(0.98);
 }
 
 /* ============ 页脚 ============ */
