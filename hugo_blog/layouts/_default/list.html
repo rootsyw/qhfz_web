@@ -1,0 +1,24 @@
+{{ define "main" }}
+<section class="list-page">
+    <h1>{{ .Title }}</h1>
+
+    <div class="post-list">
+        {{ range .Pages }}
+        <article class="post-card">
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="post-meta">
+                <span>{{ .Date.Format "2006-01-02" }}</span>
+                {{ with .Params.categories }}
+                {{ range . }}<a href="{{ "categories/" | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>{{ end }}
+                {{ end }}
+            </div>
+            {{ if .Description }}
+            <p class="post-excerpt">{{ .Description }}</p>
+            {{ else }}
+            <p class="post-excerpt">{{ .Plain | truncate 120 }}</p>
+            {{ end }}
+        </article>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

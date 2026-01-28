@@ -1,0 +1,59 @@
+# Hugo 配置文件
+# 清华附中冬令营博客
+
+baseURL = '/'  # 部署时会被替换
+languageCode = 'zh-cn'
+title = '极智挑战 - 冬令营博客'
+
+# API 地址（部署时替换）
+[params]
+  apiBase = 'http://localhost:8080'
+  author = '清华附中 × 奇安信'
+  description = '2026 极智挑战智能安全科技冬令营'
+
+# 语法高亮 - 浅色主题
+[markup]
+  [markup.highlight]
+    style = 'github'
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = false
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# 分类系统
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+# 菜单
+[menu]
+  [[menu.main]]
+    name = '首页'
+    url = '/'
+    weight = 1
+  [[menu.main]]
+    name = '文章'
+    url = '/posts/'
+    weight = 2
+  [[menu.main]]
+    name = '分类'
+    url = '/categories/'
+    weight = 3
+  [[menu.main]]
+    name = '标签'
+    url = '/tags/'
+    weight = 4
+  [[menu.main]]
+    name = '留言板'
+    url = '/guestbook/'
+    weight = 5
+
+# 分页
+[pagination]
+  pagerSize = 10
+
+# 构建设置
+[build]
+  writeStats = true

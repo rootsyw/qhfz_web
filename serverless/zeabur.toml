@@ -1,0 +1,8 @@
+# Zeabur 部署配置
+# 清华附中冬令营 - 极智挑战
+
+[build]
+  command = "pip install -r requirements.txt"
+
+[start]
+  command = "gunicorn -w 2 -b 0.0.0.0:$PORT wsgi:application"

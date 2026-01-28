@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/syntax.css" | relURL }}">
+    {{- /* Hugo 内置模板: Open Graph & Twitter Card */ -}}
+    {{ template "_internal/opengraph.html" . }}
+    {{ template "_internal/twitter_cards.html" . }}
+</head>
+<body>
+    <div class="reading-progress" id="reading-progress"></div>
+
+    {{- partial "header.html" . -}}
+
+    <main class="container">
+        {{- block "main" . }}{{- end }}
+    </main>
+
+    {{- partial "footer.html" . -}}
+
+    <button class="back-to-top" id="back-to-top" aria-label="返回顶部">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 3L3 8.5h3.25V13h3.5V8.5H13L8 3z" fill="currentColor"/>
+        </svg>
+    </button>
+
+    <script>
+        window.API_BASE = '{{ .Site.Params.apiBase }}';
+    </script>
+    <script src="{{ "js/main.js" | relURL }}"></script>
+</body>
+</html>

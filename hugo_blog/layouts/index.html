@@ -1,0 +1,42 @@
+{{ define "main" }}
+<section class="hero">
+    <h1>极智挑战冬令营</h1>
+    <p>清华附中 × 奇安信 | 2026 智能安全科技冬令营</p>
+</section>
+
+<section class="home-section">
+    <h2 class="section-title">最新文章</h2>
+    <div class="post-list">
+        {{ range first 5 (where .Site.RegularPages "Section" "posts") }}
+        <article class="post-card">
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="post-meta">
+                <span>{{ .Date.Format "2006-01-02" }}</span>
+                {{ with .Params.categories }}
+                {{ range . }}<a href="{{ "categories/" | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>{{ end }}
+                {{ end }}
+            </div>
+            {{ if .Description }}
+            <p class="post-excerpt">{{ .Description }}</p>
+            {{ else }}
+            <p class="post-excerpt">{{ .Plain | truncate 120 }}</p>
+            {{ end }}
+        </article>
+        {{ else }}
+        <p class="empty-tip">还没有文章，敬请期待！</p>
+        {{ end }}
+    </div>
+</section>
+
+<section class="comment-section">
+    <h2>留言板</h2>
+    <div id="comments-container">
+        <div id="comments-list">加载中...</div>
+        <form id="comment-form" class="comment-form">
+            <input type="text" id="nickname" placeholder="你的昵称" maxlength="20" required>
+            <textarea id="content" placeholder="写下你的想法..." maxlength="500" required></textarea>
+            <button type="submit">发送留言</button>
+        </form>
+    </div>
+</section>
+{{ end }}

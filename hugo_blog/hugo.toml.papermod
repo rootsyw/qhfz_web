@@ -1,0 +1,57 @@
+# 方案 2：使用 Hugo 主题（备选）
+# 如需使用此方案，将此文件重命名为 hugo.toml，并安装主题
+
+# 安装主题命令：
+# git submodule add https://github.com/adityatelange/hugo-PaperMod themes/PaperMod
+
+baseURL = '/'
+languageCode = 'zh-cn'
+title = '极智挑战 - 冬令营博客'
+theme = 'PaperMod'
+
+[params]
+  apiBase = 'http://localhost:8080'
+  author = '清华附中 × 奇安信'
+  description = '2026 极智挑战智能安全科技冬令营'
+  defaultTheme = 'light'
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+
+  [params.homeInfoParams]
+    Title = "欢迎来到极智挑战冬令营"
+    Content = "清华附中 × 奇安信 2026 智能安全科技冬令营博客"
+
+# 分类系统
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+# 菜单
+[menu]
+  [[menu.main]]
+    name = '首页'
+    url = '/'
+    weight = 1
+  [[menu.main]]
+    name = '文章'
+    url = '/posts/'
+    weight = 2
+  [[menu.main]]
+    name = '分类'
+    url = '/categories/'
+    weight = 3
+  [[menu.main]]
+    name = '标签'
+    url = '/tags/'
+    weight = 4
+  [[menu.main]]
+    name = '留言板'
+    url = '/guestbook/'
+    weight = 5
+
+# 分页
+[pagination]
+  pagerSize = 10
