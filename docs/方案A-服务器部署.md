@@ -156,16 +156,40 @@ cloudflared tunnel --url http://localhost:80
 # https://random-words-here.trycloudflare.com
 ```
 
-**步骤 3：配置为系统服务（持久运行）**
+**步骤 3：使用 tmux 持久运行（推荐，无需登录）**
+
+Quick Tunnel 不需要 Cloudflare 账号，用 tmux 可以让它在后台持续运行：
+
+```bash
+# 创建 tmux 会话
+tmux new -s cloudflare
+
+# 在 tmux 中启动 tunnel
+cloudflared tunnel --url http://localhost:80
+
+# 记下分配的域名后，按 Ctrl+b 然后按 d 离开会话（tunnel 继续运行）
+```
+
+**tmux 常用命令**：
+
+```bash
+tmux ls                    # 查看所有会话
+tmux a -t cloudflare       # 重新进入会话
+tmux kill-session -t cloudflare  # 关闭会话
+```
+
+> **注意**：Quick Tunnel 每次重启会生成新域名。如需固定域名，请使用方案 3（购买域名）或下方的"登录模式"。
+
+**步骤 4（可选）：登录模式 - 固定域名**
+
+如果需要固定域名，需要登录 Cloudflare 账号：
 
 ```bash
 # 使用脚本一键配置
 sudo ./scripts/setup-cloudflare-tunnel.sh service
-
-# 或手动配置（见下方）
 ```
 
-#### 手动配置 Cloudflare Tunnel 服务
+#### 手动配置 Cloudflare Tunnel 服务（登录模式）
 
 1. 创建配置文件：
 
