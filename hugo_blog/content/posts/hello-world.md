@@ -1,12 +1,12 @@
 ---
-title: "Hello World - 冬令营第一天"
+title: "Hello World - 第一天"
 date: 2026-01-27
-description: "冬令营第一天的学习笔记：环境配置、Flask 基础和 Git 入门。"
+description: "第一天的学习笔记：环境配置、Flask 基础和 Git 入门。"
 categories: ["日记"]
 tags: ["入门", "Python"]
 ---
 
-今天是冬令营的第一天！
+今天是学习的第一天！
 
 ## 我们学到了什么
 

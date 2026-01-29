@@ -1,5 +1,4 @@
 # Zeabur 部署配置
-# 清华附中冬令营 - 极智挑战
 
 [build]
   command = "pip install -r requirements.txt"

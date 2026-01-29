@@ -25,7 +25,7 @@
 ### 服务器要求
 
 - 一台 Linux 服务器（Ubuntu 20.04/22.04 推荐）
-- 来源：DataCon 平台分配 / 阿里云 ECS / 腾讯云 / 其他云服务商
+- 来源：阿里云 ECS / 腾讯云 / 其他云服务商
 - 能够通过 SSH 连接
 
 ### 本地环境（可选，用于本地预览）
@@ -87,6 +87,13 @@ API 地址: http://<你的IP>.nip.io/api
 | **方案 1** | `123.45.67.89.nip.io` | ❌ | 免费 | ⭐ | 快速演示、课堂教学 |
 | **方案 2** | `random-name.trycloudflare.com` | ✅ | 免费 | ⭐⭐ | 需要 HTTPS、长期使用 |
 | **方案 3** | `www.yourname.com` | ✅ | ~$3 | ⭐⭐⭐ | 正式网站、完整教学 |
+
+只有 Cloudflare Tunnel 需要 tmux，因为它是一个前台进程。
+
+| 服务             | 断开 SSH 后      | 原因              |
+|------------------|-----------------|-------------------|
+| nip.io 网站      | ✅ 继续运行     | systemd 管理      |
+| Cloudflare Tunnel | ❌ 会停止       | 需要 tmux 保持    |
 
 ---
 
@@ -579,6 +586,76 @@ cd /opt/qhfz_web/flask_api
 source venv/bin/activate
 python -c "from app import app; print('OK')"
 ```
+
+### Q7: Cloudflare Tunnel 启动后看不到域名？
+
+域名显示在启动日志的前几行，可能被后续日志刷掉了。解决方法：
+
+```bash
+# 方法 1：输出到文件
+cloudflared tunnel --url http://localhost:80 2>&1 | tee /tmp/cf.log
+
+# 在另一个终端查看域名
+grep trycloudflare /tmp/cf.log
+```
+
+```bash
+# 方法 2：在 tmux 中滚动查看历史
+# 按 Ctrl+b 然后按 [ 进入滚动模式
+# 用方向键往上滚动，找到 trycloudflare.com 那行
+# 按 q 退出滚动模式
+```
+
+### Q8: Cloudflare Tunnel 脚本提示 Permission denied？
+
+脚本没有执行权限，需要先添加：
+
+```bash
+chmod +x scripts/setup-cloudflare-tunnel.sh
+./scripts/setup-cloudflare-tunnel.sh quick
+```
+
+### Q9: 如何停止 Cloudflare Tunnel？
+
+```bash
+# 如果在 tmux 中运行
+tmux kill-session -t cloudflare
+
+# 或者直接杀进程
+pkill cloudflared
+
+# 查看是否还有进程
+ps aux | grep cloudflared
+```
+
+### Q10: tmux 里 Ctrl+C 不起作用？
+
+tmux 的快捷键和普通终端不同：
+
+| 操作 | 快捷键 |
+|-----|--------|
+| 停止程序 | 直接按 `Ctrl+C`（应该可以） |
+| 离开会话（后台运行） | `Ctrl+b` 然后 `d` |
+| 关闭当前窗口 | `Ctrl+b` 然后 `x` |
+| 滚动查看历史 | `Ctrl+b` 然后 `[`，按 `q` 退出 |
+
+如果 Ctrl+C 确实不行，打开新终端运行 `pkill cloudflared`。
+
+### Q11: nip.io 手机打不开，电脑可以？
+
+可能是手机网络的 DNS 解析问题。解决方法：
+
+1. **直接用 IP 访问**：`http://你的服务器IP`
+2. **用 Cloudflare Tunnel**：`trycloudflare.com` 域名 DNS 更稳定
+3. **切换手机网络**：试试 WiFi 或换个运营商
+
+### Q12: Quick Tunnel 域名能固定吗？
+
+**不能**。Quick Tunnel 每次重启都会生成新的随机域名。
+
+如需固定域名：
+- **方案 A**：登录 Cloudflare 账号，创建命名 Tunnel
+- **方案 B**：购买域名（方案 3）
 
 ---
 

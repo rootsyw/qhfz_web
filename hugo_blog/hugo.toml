@@ -1,15 +1,14 @@
 # Hugo 配置文件
-# 清华附中冬令营博客
 
 baseURL = '/'  # 部署时会被替换
 languageCode = 'zh-cn'
-title = '极智挑战 - 冬令营博客'
+title = '我的博客'
 
 # API 地址（方案 B: Zeabur Flask API）
 [params]
-  apiBase = 'https://qhfzblog.zeabur.app'
-  author = '清华附中 × 奇安信'
-  description = '2026 极智挑战智能安全科技冬令营'
+  apiBase = 'https://your-api.zeabur.app'
+  author = '博客作者'
+  description = '网站搭建教学项目'
   # 是否启用动态功能（留言板、访客统计）
   # 方案 C 静态部署时设为 false
   enableComments = true

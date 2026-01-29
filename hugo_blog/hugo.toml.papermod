@@ -6,13 +6,13 @@
 
 baseURL = '/'
 languageCode = 'zh-cn'
-title = '极智挑战 - 冬令营博客'
+title = '我的博客'
 theme = 'PaperMod'
 
 [params]
   apiBase = 'http://localhost:8080'
-  author = '清华附中 × 奇安信'
-  description = '2026 极智挑战智能安全科技冬令营'
+  author = '博客作者'
+  description = '网站搭建教学项目'
   defaultTheme = 'light'
   ShowReadingTime = true
   ShowShareButtons = false
@@ -21,8 +21,8 @@ theme = 'PaperMod'
   ShowCodeCopyButtons = true
 
   [params.homeInfoParams]
-    Title = "欢迎来到极智挑战冬令营"
-    Content = "清华附中 × 奇安信 2026 智能安全科技冬令营博客"
+    Title = "欢迎来到我的博客"
+    Content = "网站搭建教学项目"
 
 # 分类系统
 [taxonomies]

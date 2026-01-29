@@ -1,6 +1,5 @@
 /**
  * Cloudflare Worker - 博客 API
- * 清华附中冬令营 - 极智挑战
  */
 
 export default {
