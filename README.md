@@ -51,72 +51,44 @@ scripts\dev-local.bat
 
 ---
 
-## 方案 A：传统服务器部署（5 步）
+## 方案 A：传统服务器部署
 
 > 适合课堂教学，学生需要有一台 Linux 服务器（DataCon 平台分配 或 自购阿里云 ECS）
+>
+> **详细文档**：[docs/方案A-服务器部署.md](docs/方案A-服务器部署.md)
 
-### 步骤 1：SSH 连接服务器
+### 快速部署（3 步）
 
 ```bash
+# 1. SSH 连接服务器
 ssh root@<你的服务器IP>
-```
 
-### 步骤 2：克隆项目
-
-```bash
+# 2. 克隆项目
 cd /opt
 git clone https://github.com/yourname/qhfz_web.git
 cd qhfz_web
-```
 
-### 步骤 3：一键部署
-
-```bash
+# 3. 一键部署
 chmod +x scripts/deploy-linux.sh
 ./scripts/deploy-linux.sh
 ```
 
-脚本会自动完成：
-1. 安装依赖（Python3、Nginx、Hugo）
-2. 创建专用用户 `qhfz`（非 root 运行，更安全）
-3. 配置 Flask API（Gunicorn + Systemd，开机自启）
-4. 构建 Hugo 静态博客
-5. 配置 Nginx 反向代理
+部署完成后访问：`http://<你的IP>.nip.io`
 
-### 步骤 4：访问网站
+### 域名方案选择
 
-部署完成后，终端会显示访问地址：
-
-```
-博客地址: http://<你的IP>.nip.io
-API 地址: http://<你的IP>.nip.io/api
-```
-
-### 步骤 5（可选）：配置 HTTPS
-
-```bash
-# 需要自己的域名（nip.io 有 rate limit）
-sudo certbot certonly --standalone -d your-domain.com
-
-# 更新 Nginx 配置，启用 SSL
-# 详见 docs/requirements.md
-```
+| 方案 | 命令 | 效果 |
+|-----|------|------|
+| **nip.io**（默认） | `./scripts/deploy-linux.sh` | `http://IP.nip.io` |
+| **Cloudflare Tunnel** | `./scripts/setup-cloudflare-tunnel.sh quick` | `https://xxx.trycloudflare.com` |
+| **自定义域名 + HTTPS** | `./scripts/deploy-linux.sh --domain example.com --https` | `https://example.com` |
 
 ### 常用管理命令
 
 ```bash
-# 查看 API 状态
-sudo systemctl status qhfz-api
-
-# 重启 API
-sudo systemctl restart qhfz-api
-
-# 查看日志
-sudo journalctl -u qhfz-api -f
-
-# 重新构建 Hugo
-cd /opt/qhfz_web/hugo_blog && hugo --minify
-sudo cp -r public/* /var/www/qhfz/
+sudo systemctl status qhfz-api    # 查看 API 状态
+sudo systemctl restart qhfz-api   # 重启 API
+sudo journalctl -u qhfz-api -f    # 查看日志
 ```
 
 ---
